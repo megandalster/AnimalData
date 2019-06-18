@@ -1,8 +1,8 @@
 <?php
 $host = "localhost";
-$user = 'critter';
-$pass = 'critterpass';
-$dbName = 'critterdb';
+$user = 'animaldb';
+$pass = 'foodyWr1';
+$dbName = 'animaldb';
 $dbcon = new PDO("mysql:host=".$host.";dbname=".$dbName, $user, $pass,array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET sql_mode="TRADITIONAL"'));
 $dbcon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $dbcon->query("SET SESSION sql_mode = 'ALLOW_INVALID_DATES'");

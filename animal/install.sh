@@ -25,31 +25,31 @@ read ADMINPASS
 echo ""
 echo "Creating databases and database user ..."
 MYSQLHOST="localhost"
-FARMDB=`tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1`
-FARMUSER=`tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1`
-FARMPASS=`tr -cd '[:alnum:]' < /dev/urandom | fold -w10 | head -n1`
+FARMDB="animaldb"
+FARMUSER="animaldb"
+FARMPASS="foodyWr1"
       
-mysql -u $ADMINUSER -p$ADMINPASS -Bse "create database $FARMDB;" || { 
-       echo "Database creation failed.  Exiting AnimalData install!"; exit 1; }
+#/Applications/MAMP/Library/bin/mysql -u $ADMINUSER -p$ADMINPASS -Bse "create database $FARMDB;" || { 
+#       echo "Database creation failed.  Exiting AnimalData install!"; exit 1; }
 echo "Enter username for initial AnimalData user account:";
 read FIRSTUSER
 echo "Enter password for initial AnimalData user account:";
 read FIRSTPASS
 FIRSTPASS=`php -r "print crypt('$FIRSTPASS', '123salt');"`
 
-mysql -u $ADMINUSER -p$ADMINPASS -Bse "use $FARMDB; source tables.txt;
+/Applications/MAMP/Library/bin/mysql -u $ADMINUSER -p$ADMINPASS -Bse "use $FARMDB; source tables.txt;
        insert into users values('$FIRSTUSER', 1, 1);
        insert into ext_users values('$FIRSTUSER', '$FIRSTPASS');" || { 
        echo "Setting up database failed.  Exiting AnimalData install!"; exit 1; }
 
 echo "Database table creation successful!"
 
-mysql -u $ADMINUSER -p$ADMINPASS -Bse "create user $FARMUSER identified by '$FARMPASS';" || { 
-       echo "Database user creation failed.  Exiting AnimalData install!"; exit 1; }
-mysql -u $ADMINUSER -p$ADMINPASS -Bse "use $FARMDB; 
-       grant select, delete, insert, update, show view, lock tables on $FARMDB.* to $FARMUSER;" || { 
-       echo "Granting privileges to user failed.  Exiting AnimalData install!"; exit 1; }
-echo "Database user creation successful!"
+#/Applications/MAMP/Library/bin/mysql -u $ADMINUSER -p$ADMINPASS -Bse "create user $FARMUSER identified by '$FARMPASS';" || { 
+#       echo "Database user creation failed.  Exiting AnimalData install!"; exit 1; }
+#/Applications/MAMP/Library/bin/mysql -u $ADMINUSER -p$ADMINPASS -Bse "use $FARMDB; 
+#       grant select, delete, insert, update, show view, lock tables on $FARMDB.* to $FARMUSER;" || { 
+#       echo "Granting privileges to user failed.  Exiting AnimalData install!"; exit 1; }
+#echo "Database user creation successful!"
 
 echo "Configuring files - this will take a few moments."
 
@@ -58,16 +58,16 @@ echo "Configuring files - this will take a few moments."
 #done
 
 for file in "recur.php" "validate.php"; do
-   sed -i "s/critterpass/$FARMPASS/" $file || { echo "Error configuring files.  Exiting AnimalData install";
+   sed -i "" "s/critterpass/$FARMPASS/" $file || { echo "Error configuring files.  Exiting AnimalData install";
         exit 1; }
-   sed -i "s/critterdb/$FARMDB/" $file || { echo "Error configuring files.  Exiting AnimalData install";
+   sed -i "" "s/critterdb/$FARMDB/" $file || { echo "Error configuring files.  Exiting AnimalData install";
         exit 1; }
-   sed -i "s/critter/$FARMUSER/" $file || { echo "Error configuring files.  Exiting AnimalData install";
+   sed -i "" "s/critter/$FARMUSER/" $file || { echo "Error configuring files.  Exiting AnimalData install";
         exit 1; }
 done
 
 for file in "index.html" "default.html" "redirect.html"; do
-   sed -i "s%url=login\.php%url=extlogin.php%" $file || { echo "Error configuring files.  Exiting AnimalData install";
+   sed -i "" "s%url=login\.php%url=extlogin.php%" $file || { echo "Error configuring files.  Exiting AnimalData install";
         exit 1; }
 done
 

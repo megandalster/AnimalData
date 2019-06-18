@@ -1,7 +1,7 @@
 <?php
 session_start();
 include $_SERVER['DOCUMENT_ROOT'].'/animal/util.php';
-$dbcon = new PDO('mysql:host=localhost;dbname=critterdb', 'critter', 'critterpass',
+$dbcon = new PDO('mysql:host=localhost;dbname=animaldb', 'animaldb', 'foodyWr1',
     array(PDO::MYSQL_ATTR_INIT_COMMAND => 'set sql_mode="TRADITIONAL"'));
 $dbcon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 $pass = escapehtml(crypt($_POST['pass'], '123salt'));
@@ -31,11 +31,11 @@ if ($ct == 0) {
 echo "<br>";
     if ($pass == $userpass) { 
        if ($active) {
-          $_SESSION['dbuser'] = "critter";
+          $_SESSION['dbuser'] = "animaldb";
           $_SESSION['admin'] = $admin;
           $_SESSION['user'] = $user;
-          $_SESSION['dbpass'] = "critterpass";
-          $_SESSION['db'] = "critterdb";
+          $_SESSION['dbpass'] = "foodyWr1";
+          $_SESSION['db'] = "animaldb";
           header("Location: home.php");
        } else {
           echo "<script>alert(\"Fatal error: user account is not active\");</script>";
